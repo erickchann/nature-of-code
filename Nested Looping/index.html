@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nested Looping</title>
+</head>
+
+<body>
+
+
+    <script>
+        const array = [{
+            value: '1',
+            reply: [{
+                value: '2',
+                reply: [{
+                    value: '3',
+                    reply: [{
+                        value: '4',
+                        reply: [{
+                            value: '5'
+                        }, {
+                            value: '6'
+                        }]
+                    }]
+                }]
+            }]
+        }];
+
+        loopComment(array[0]);
+
+        function loopComment(array) {
+            console.log(array.value);
+
+            if (array.reply) {
+                array.reply.forEach(val => {
+                    loopComment(val);
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

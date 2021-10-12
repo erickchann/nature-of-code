@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Animation 2</title>
+
+    <style>
+
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+        }
+
+    </style>
+</head>
+<body>
+    <canvas></canvas>
+
+    <script>
+
+        const canvas = document.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = document.body.offsetWidth;
+        canvas.height = document.body.offsetHeight;
+
+        const w = canvas.width;
+        const h = canvas.height;
+
+        let circles = [];
+
+        for (let i = 0; i < 400; i++) {
+            circles.push(new circle());
+        }
+
+        let mouse = {
+            x: '',
+            y: ''
+        };
+
+        canvas.addEventListener('mousemove', e => {
+            mouse.x = e.offsetX;
+            mouse.y = e.offsetY;
+        });
+        
+        window.onload = update();
+        function update() {
+            ctx.clearRect(0, 0, w, h);
+
+            circles.forEach(val => {
+                val.update();
+            });
+
+            requestAnimationFrame(update);
+        }
+
+        function circle() {
+            this.radius = 2;
+            this.x = Math.random() * (w - this.radius * 4) + 20;
+            this.y = Math.random() * (h - this.radius * 4) + 20;
+            this.speedX = Math.random() * 4 + 1;
+            this.speedY = Math.random() * 4 + 1;
+
+            this.update = function () {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x + this.radius >= w || this.x <= 0 + this.radius) this.speedX = -this.speedX; 
+                if (this.y + this.radius >= h || this.y <= 0 + this.radius) this.speedY = -this.speedY;
+
+                this.zoom();
+                this.draw();
+            }
+
+            this.zoom = function (x, y) {
+                if (mouse.x - this.x <= 100 && mouse.x - this.x >= -100 && mouse.y - this.y <= 100 && mouse.y - this.y >= -100) {
+                    this.radius++;
+                } else if (this.radius >= 2) {
+                    this.radius--;
+                }
+            }
+
+            this.draw = function () {
+                ctx.fillStyle = 'black';
+        
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+    </script>
+</body>
+</html>

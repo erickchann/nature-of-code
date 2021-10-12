@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravity 2</title>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas></canvas>
+
+    <script>
+        const canvas = document.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = document.body.offsetWidth;
+        canvas.height = document.body.offsetHeight;
+
+        const w = canvas.width;
+        const h = canvas.height;
+
+        let gravity = 0.1;
+        let velocity = 0;
+        let lift = -10;
+        let radius = 20;
+
+        let balls = [];
+
+        window.onload = init();
+
+        function init() {
+            balls.push(new Ball());
+
+            update();
+        }
+
+        function update() {
+            // ctx.clearRect(0, 0, w, h);
+
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, w, h);
+
+            balls.forEach(val => {
+                val.update();
+            });
+
+            requestAnimationFrame(update);
+        }
+
+        function Ball() {
+            this.gravity = gravity;
+            this.velocity = velocity;
+            this.lift = lift;
+            this.radius = radius;
+            this.x = w / 2;
+            this.y = 200;
+
+            this.update = function () {
+                this.velocity += this.gravity;
+                this.y += this.velocity;
+
+                if (this.y + this.radius + 20>= h) {
+                    this.velocity += this.lift;
+
+                    this.lift *= 0.95;
+                }
+
+                if (this.lift >= -1) {
+                    this.gravity = 0;
+                    this.velocity = 0;
+                }
+
+                this.draw();
+            }
+
+            this.draw = function () {
+                ctx.fillStyle = 'white';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+    </script>
+</body>
+
+</html>
