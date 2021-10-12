@@ -31,35 +31,35 @@
 	<div class="circle1"></div>
 	<div class="circle2"></div>
 
-<script>
-	
-const c1 = document.querySelector('.circle1');
-const c2 = document.querySelector('.circle2');
+	<script>
+		
+		const c1 = document.querySelector('.circle1');
+		const c2 = document.querySelector('.circle2');
 
-let x2 = 500;
-let y2 = 500;
+		let x2 = 500;
+		let y2 = 500;
 
-c2.style.top = `${y2}px`;
-c2.style.left = `${x2}px`;
+		c2.style.top = `${y2}px`;
+		c2.style.left = `${x2}px`;
 
-document.addEventListener('mousemove', (e) => {
-	c1.style.top = `${e.clientY}px`;
-	c1.style.left = `${e.clientX}px`;
+		document.addEventListener('mousemove', (e) => {
+			c1.style.top = `${e.clientY}px`;
+			c1.style.left = `${e.clientX}px`;
 
-	if (getDistance(e.clientX, x2, e.clientY, y2) < 175) {
-		c2.style.backgroundColor = 'red';
-	} else {
-		c2.style.backgroundColor = 'black';
-	}
-});
+			if (getDistance(e.clientX, x2, e.clientY, y2) < 175) {
+				c2.style.backgroundColor = 'red';
+			} else {
+				c2.style.backgroundColor = 'black';
+			}
+		});
 
-function getDistance(x1, x2, y1, y2) {
-	let xDistance = x2 - x1;
-	let yDistance = y2 - y1;
+		function getDistance(x1, x2, y1, y2) {
+			let xDistance = x2 - x1;
+			let yDistance = y2 - y1;
 
-	return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
-}
+			return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+		}
 
-</script>
+	</script>
 </body>
 </html>
