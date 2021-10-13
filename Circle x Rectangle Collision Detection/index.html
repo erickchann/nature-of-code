@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +8,6 @@
     <title>Circle x Rectangle Collision Detection</title>
 
     <style>
-
         .rect {
             position: absolute;
             left: 200px;
@@ -25,30 +25,75 @@
             border-radius: 50%;
             transform: translate(-50%, -50%);
         }
-
     </style>
 </head>
+
 <body>
-    
+
     <div class="rect"></div>
 
     <div class="circle"></div>
 
     <script>
+        const circleEl = document.querySelector('.circle');
+        const rectEl = document.querySelector('.rect');
 
-        const circle = document.querySelector('.circle');
-        const rect = document.querySelector('.rect');
+        let circle = {
+            x: 0,
+            y: 0,
+            r: 25
+        };
+
+        let rect = {
+            x: 200,
+            y: 300,
+            w: 200,
+            h: 100
+        };
 
         document.addEventListener('mousemove', e => {
             let x = e.clientX;
             let y = e.clientY;
 
-            circle.style.top = `${y}px`;
-			circle.style.left = `${x}px`;
+            circle.x = x;
+            circle.y = y;
+
+            circleEl.style.top = `${y}px`;
+            circleEl.style.left = `${x}px`;
+
+            if (RectCircleColliding(circle, rect)) {
+                rectEl.style.backgroundColor = 'red';
+            } else {
+                rectEl.style.backgroundColor = 'black';
+            }
         });
 
-        // http://www.jeffreythompson.org/collision-detection/circle-rect.php
+        // return true if the rectangle and circle are colliding
+        function RectCircleColliding(circle, rect) {
+            let distX = Math.abs(circle.x - rect.x - rect.w / 2);
+            let distY = Math.abs(circle.y - rect.y - rect.h / 2);
+
+            if (distX > (rect.w / 2 + circle.r)) {
+                return false;
+            }
+            if (distY > (rect.h / 2 + circle.r)) {
+                return false;
+            }
+
+            if (distX <= (rect.w / 2)) {
+                return true;
+            }
+            if (distY <= (rect.h / 2)) {
+                return true;
+            }
+
+            let dx = distX - rect.w / 2;
+            let dy = distY - rect.h / 2;
+            
+            return (dx * dx + dy * dy <= (circle.r * circle.r));
+        }
 
     </script>
 </body>
+
 </html>
