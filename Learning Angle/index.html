@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Angle</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        canvas {
+            background-color: #cccccc;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <canvas></canvas>
+
+    <script>
+
+        const canvas = document.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = document.body.offsetWidth;
+        canvas.height = document.body.offsetHeight;
+
+        const w = canvas.width;
+        const h = canvas.height;
+
+        const line = {
+            x: w / 2,
+            y: h / 2
+        };
+
+        let rad = 0;
+
+        canvas.addEventListener('mousemove', e => {
+            const x = line.x - e.offsetX;
+            const y = line.y - e.offsetY;
+
+            rad = Math.atan2(y, x);
+        });
+
+        function draw() {
+            ctx.clearRect(0, 0, w, h);
+            
+            ctx.beginPath();
+            ctx.moveTo(line.x, line.y);
+            ctx.lineTo(line.x - 100 * Math.cos(rad), line.y - 100 * Math.sin(rad));
+            ctx.stroke();
+
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+
+    </script>
+</body>
+</html>
