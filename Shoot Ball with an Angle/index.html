@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoot Ball with an Angle</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas {
+            background-color: black;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <canvas></canvas>
+
+    <script>
+
+        const canvas = document.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = document.body.offsetWidth;
+        canvas.height = document.body.offsetHeight;
+
+        const w = canvas.width;
+        const h = canvas.height;
+
+        class Ball {
+            constructor(x, y) {
+                this.x = w / 2;
+                this.y = h / 2;
+                this.r = 10;
+                
+                this.speedX = x;
+                this.speedY = y;
+                this.color = 'red';
+                this.velocity = 10;
+            }
+
+            update() {
+                this.x += this.speedX * this.velocity;
+                this.y += this.speedY * this.velocity;
+
+                this.draw();
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const player = { x: w / 2, y: h / 2 };
+        const balls = [];
+
+        canvas.addEventListener('mousedown', e => {
+            const x = e.offsetX;
+            const y = e.offsetY;
+            const rad = Math.atan2(y - player.y, x - player.x);
+
+            balls.push(new Ball(Math.cos(rad), Math.sin(rad)));
+        });
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, w, h);
+
+            balls.forEach(ball => {
+                ball.update();                
+            });
+
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+
+    </script>
+</body>
+</html>
