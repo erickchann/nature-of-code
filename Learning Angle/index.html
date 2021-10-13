@@ -51,8 +51,8 @@
         let rad = 0;
 
         canvas.addEventListener('mousemove', e => {
-            const x = line.x - e.offsetX;
-            const y = line.y - e.offsetY;
+            const x = e.offsetX - line.x;
+            const y = e.offsetY - line.y;
 
             rad = Math.atan2(y, x);
         });
@@ -62,7 +62,7 @@
             
             ctx.beginPath();
             ctx.moveTo(line.x, line.y);
-            ctx.lineTo(line.x - 100 * Math.cos(rad), line.y - 100 * Math.sin(rad));
+            ctx.lineTo(line.x + 100 * Math.cos(rad), line.y + 100 * Math.sin(rad));
             ctx.stroke();
 
             requestAnimationFrame(draw);
