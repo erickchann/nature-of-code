@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Learning SVG</title>
+</head>
+<body>
+    
+    <svg id="app" class="app">
+        <g class="element" style="transform: translate(1000px, 500px);">
+            <circle cx="0" cy="0" r="40" class="circle"></circle>
+
+            <g class="section active" i="1">
+                <path class="path" i="1" d="M 0 0 L -28 -28 Q 0 -53 28 -28 Z"></path>
+                <text class="text" i="1">1</text>
+            </g>
+
+            <g class="section" i="2">
+                <path class="path" i="2" d="M 0 0 L 28 -28 Q 53 0 28 28 Z"></path>
+                <text class="text" i="2">2</text>
+            </g>
+
+            <g class="section" i="3">
+                <path class="path" i="3" d="M 0 0 L 28 28 Q 0 53 -28 28 Z"></path>
+                <text class="text" i="3">3</text>
+            </g>
+
+            <g class="section" i="4">
+                <path class="path" i="4" d="M 0 0 L -28 28 Q -53 0 -28 -28 Z"></path>
+                <text class="text" i="4">4</text>
+            </g>
+
+            <foreignObject width="30" height="30" transform="translate(-20, -15)" x="-55"><button class="btn-action btn-edit">E</button></foreignObject>
+            <foreignObject width="30" height="30" transform="translate(-10, -15)" x="55"><button class="btn-action btn-delete">X</button></foreignObject>
+        </g>
+    </svg>
+
+    <script>
+
+        const element = document.querySelector('.element');
+
+        let elX, elY;
+
+        function dragable() {
+            element.addEventListener('mousedown', drag);
+            element.addEventListener('mouseup', stop);
+        }
+
+        function drag(e) {
+            elX = e.offsetX;
+            elY = e.offsetY;
+            
+            this.addEventListener('mousemove', move);
+        }
+        
+        function move(e) {
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            this.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function stop() {
+            this.removeEventListener('mousemove', move);
+        }
+
+        dragable();
+
+    </script>
+</body>
+</html>
